@@ -4,20 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = 0; i < 30; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-        
         const size = Math.random() * 5 + 2;
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
         const delay = Math.random() * 10;
         const duration = Math.random() * 10 + 10;
-        
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         particle.style.left = `${posX}%`;
         particle.style.top = `${posY}%`;
         particle.style.animationDelay = `${delay}s`;
         particle.style.animationDuration = `${duration}s`;
-        
         particlesContainer.appendChild(particle);
     }
 
@@ -43,10 +40,10 @@ document.addEventListener('DOMContentLoaded', function() {
         typing();
     }
     
-    typeWriter("Максим (tinokil)", document.getElementById('typing-text'), 60, function() {
+    typeWriter("Максим (tinokil)", document.getElementById('typing-text'), 50, function() {
         setTimeout(() => {
-            typeWriter("Python разработчик", document.getElementById('typing-subtext'), 20);
-        }, 5);
+            typeWriter("Python разработчик", document.getElementById('typing-subtext'), 25);
+        }, 3);
     });
 
     const sections = document.querySelectorAll('section');
