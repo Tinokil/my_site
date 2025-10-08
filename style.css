@@ -335,6 +335,19 @@ h2::after {
     max-width: 800px;
 }
 
+.external-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-bottom: 1px dotted var(--accent);
+}
+
+.external-link:hover {
+    color: var(--accent-light);
+    border-bottom: 1px solid var(--accent-light);
+}
+
 .code-highlight {
     background: rgba(16, 185, 129, 0.15);
     padding: 3px 8px;
@@ -378,7 +391,7 @@ h2::after {
 }
 
 .contact p {
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto 40px;
     position: relative;
     z-index: 1;
@@ -410,6 +423,20 @@ h2::after {
     border: none;
     position: relative;
     overflow: hidden;
+}
+
+.contact a.github-btn {
+    background: linear-gradient(135deg, #333, #000);
+}
+
+.contact a.github-btn:hover {
+    background: linear-gradient(135deg, #444, #111);
+}
+
+.contact a.github-btn img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
 }
 
 .contact a::before {
@@ -446,10 +473,42 @@ footer {
     color: var(--text-light);
     text-align: center;
     padding: 40px;
-    font-size: 1rem;
     margin-top: 100px;
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-content {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--text);
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--glow);
 }
 
 .particles {
@@ -488,6 +547,7 @@ footer {
     z-index: 1;
 }
 
+/* Адаптивность */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2.5rem;
@@ -518,5 +578,51 @@ footer {
 
     .card {
         padding: 25px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    nav {
+        padding: 15px 10px;
+    }
+    
+    nav a {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    h2 {
+        font-size: 1.7rem;
+    }
+    
+    section {
+        padding: 0 15px;
+        margin: 60px auto;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    nav a {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .contact a {
+        padding: 15px 25px;
     }
 }
