@@ -103,11 +103,8 @@
                         <span>bot.py</span>
                     </div>
                     <pre class="code-snippet"><code>@router.message()
-async def handle_message(msg: Message):
-    <span class="code-keyword">await</span> msg.answer(
-        <span class="code-string">"Привет! 👋"</span>,
-        reply_markup=get_keyboard()
-    )
+async def handle_message(message: Message):
+    <span class="code-keyword">await</span> message.answer(<span class="code-string">"Привет! Я твой личный ассистент"</span>,reply_markup=mk.start())
 
 <span class="code-keyword">if</span> __name__ == <span class="code-string">"__main__"</span>:
     <span class="code-keyword">await</span> dp.start_polling(bot)</code></pre>
