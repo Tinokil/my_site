@@ -1,139 +1,44 @@
-// ===== PORTFOLIO DATA =====
-
-const portfolioProjects = [
-    {
-        id: 1,
-        title: 'Магазин в Telegram',
-        category: 'bots',
-        description: 'Полноценный магазин с интеграцией Google Sheets, карзиной и системой отравки.',
-        tech: ['aiogram', 'Google Sheets API', 'asyncio', 'PostgreSQL'],
-        fullDescription: 'Реализан полнофункциональный магазин в Telegram с возможностями:\n\n✔ Каталог товаров\n✔ Оформление заказов\n✔ Личные кабинеты\n✔ Интеграция с Google Sheets\n✔ Кеширование данных через Redis'
-    },
-    {
-        id: 2,
-        title: 'Бот с AI сомъетником',
-        category: 'bots',
-        description: 'Бот для общения с neuroseti через OpenAI API и Claude.',
-        tech: ['aiogram', 'OpenAI API', 'Claude API', 'Redis', 'PostgreSQL'],
-        fullDescription: 'Бот для интерактивного общения с мощными нейросетями:\n\n✔ Поддержка OpenAI и Claude\n✔ Получение истории диалогов\n✔ Кеширование ответов\n✔ Могучие system prompts'
-    },
-    {
-        id: 3,
-        title: 'Парсер Ozon',
-        category: 'api',
-        description: 'Грабер данных с Ozon с аналитикой и REST API.',
-        tech: ['Python', 'BeautifulSoup', 'Selenium', 'FastAPI', 'PostgreSQL'],
-        fullDescription: 'Надежный парсер данных с Ozon:\n\n✔ Парсинг товаров и рецензий\n✔ Мониторинг цен\n✔ REST API для быстрого акцесса'
-    },
-    {
-        id: 4,
-        title: 'Квест-бот с Mini App',
-        category: 'bots',
-        description: 'Интерактивный квест с бонусами и интеграцией аокассы.',
-        tech: ['aiogram', 'Mini App', 'YooKassa', 'React', 'MongoDB'],
-        fullDescription: 'Поведальная игра для новом онаю серию книг:\n\n✔ Interactive Mini App\n✔ Оплата через YooKassa\n✔ Лидерборд с результатами\n✔ Ашивывание бонусов'
-    },
-    {
-        id: 5,
-        title: 'Система мониторинга IoT',
-        category: 'iot',
-        description: 'Веб-дашборд для мониторинга сенсоров эко температуры, влажности.',
-        tech: ['ESP32', 'MicroPython', 'Flask', 'Chart.js', 'PostgreSQL'],
-        fullDescription: 'Полная система мониторинга дома:\n\n✔ Много сенсоров\n✔ Веб-дашборд в режиме реал-тайм\n✔ История данных\n✔ Нуба\n✔ Alerts на Telegram'
-    },
-    {
-        id: 6,
-        title: 'REST API для соцнети',
-        category: 'api',
-        description: 'Полноценный Backend API для социальной сети с автонтификацией.',
-        tech: ['FastAPI', 'PostgreSQL', 'SQLAlchemy', 'JWT', 'WebSockets'],
-        fullDescription: 'Современный рестфул API:\n\n✔ JWT автонтификация\n✔ WebSockets для реал-тайм\n✔ Pagination и Filtering\n✔ Rate Limiting\n✔ OpenAPI документация'
-    }
-];
-
-const testimonials = [
-    {
-        stars: 5,
-        text: 'Задача состояла в разработке telegram бота высокой сложности, специалист с ней справился на 100%, рекомендую к сотрудничеству.',
-        author: 'Ivan S.',
-        role: 'Генеральный директор'
-    },
-    {
-        stars: 5,
-        text: 'Всё выполняется быстро и очень качественно. Задачи закрываются в срок, доработки вносятся оперативно!',
-        author: 'Maria K.',
-        role: 'Product Manager'
-    },
-    {
-        stars: 5,
-        text: 'Делал два заказа подряд, сам в телеграмм ботах мало что понимаю, тем более об их инсталлации на сервер. Огромное спасибо!',
-        author: 'Peter N.',
-        role: 'Entrepreneur'
-    }
-];
-
-// ===== DOM ELEMENTS =====
-
-const navLinks = document.querySelectorAll('.nav-link');
-const navMenu = document.getElementById('navMenu');
-const hamburger = document.getElementById('hamburger');
-const portfolioGrid = document.getElementById('portfolioGrid');
-const testimonialsList = document.getElementById('testimonialsList');
-const filterBtns = document.querySelectorAll('.filter-btn');
-const modal = document.getElementById('projectModal');
-const modalBody = document.getElementById('modalBody');
-const modalClose = document.querySelector('.modal-close');
-const contactForm = document.getElementById('contactForm');
-
-// ===== INITIALIZATION =====
-
 document.addEventListener('DOMContentLoaded', function() {
     renderPortfolio('all');
-    renderTestimonials();
+    renderTestimonialsCarousel();
     setupEventListeners();
     setupScrollAnimation();
 });
 
-// ===== EVENT LISTENERS =====
-
 function setupEventListeners() {
-    // Hamburger menu
-    hamburger.addEventListener('click', toggleMobileMenu);
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const modal = document.getElementById('projectModal');
+    const modalClose = document.querySelector('.modal-close');
 
-    // Navigation links
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    });
+
     navLinks.forEach(link => {
-        link.addEventListener('click', handleNavClick);
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
     });
 
-    // Portfolio filters
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', handleFilterClick);
+        btn.addEventListener('click', (e) => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            renderPortfolio(e.target.dataset.filter);
+        });
     });
 
-    // Modal
-    modalClose.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', () => closeModal(modal));
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+        if (e.target === modal) closeModal(modal);
     });
 
-    // Contact form
-    contactForm.addEventListener('submit', handleFormSubmit);
-
-    // Scroll events
     window.addEventListener('scroll', updateActiveNav);
-}
-
-// ===== NAVIGATION =====
-
-function toggleMobileMenu() {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-}
-
-function handleNavClick(e) {
-    const href = this.getAttribute('href');
-    navMenu.classList.remove('active');
-    hamburger.classList.remove('active');
 }
 
 function updateActiveNav() {
@@ -146,7 +51,7 @@ function updateActiveNav() {
         }
     });
 
-    navLinks.forEach(link => {
+    document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href').includes(current)) {
             link.classList.add('active');
@@ -154,21 +59,27 @@ function updateActiveNav() {
     });
 }
 
-// ===== PORTFOLIO =====
-
 function renderPortfolio(filter = 'all') {
+    const portfolioGrid = document.getElementById('portfolioGrid');
     portfolioGrid.innerHTML = '';
     
     const filtered = filter === 'all' 
-        ? portfolioProjects 
-        : portfolioProjects.filter(p => p.category === filter);
+        ? projects 
+        : projects.filter(p => p.category === filter);
 
-    filtered.forEach((project, index) => {
+    if (filtered.length === 0) {
+        portfolioGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-secondary);">Проектов нет</p>';
+        return;
+    }
+
+    filtered.forEach(project => {
         const card = document.createElement('div');
         card.className = 'portfolio-card';
+        const icon = getCategoryIcon(project.category);
+        
         card.innerHTML = `
             <div class="portfolio-image">
-                <i class="fas fa-${getIcon(project.category)}"></i>
+                <i class="fas fa-${icon}"></i>
             </div>
             <div class="portfolio-content">
                 <span class="portfolio-category">${getCategoryName(project.category)}</span>
@@ -185,13 +96,7 @@ function renderPortfolio(filter = 'all') {
     });
 }
 
-function handleFilterClick(e) {
-    filterBtns.forEach(btn => btn.classList.remove('active'));
-    e.target.classList.add('active');
-    renderPortfolio(e.target.dataset.filter);
-}
-
-function getIcon(category) {
+function getCategoryIcon(category) {
     const icons = {
         bots: 'robot',
         api: 'code',
@@ -203,20 +108,22 @@ function getIcon(category) {
 function getCategoryName(category) {
     const names = {
         bots: 'Telegram Bot',
-        api: 'REST API',
+        api: 'Интеграции',
         iot: 'IoT Project'
     };
     return names[category] || category;
 }
 
-// ===== MODAL =====
-
 function openModal(project) {
+    const modal = document.getElementById('projectModal');
+    const modalBody = document.getElementById('modalBody');
+    const icon = getCategoryIcon(project.category);
+    
     modalBody.innerHTML = `
         <div class="modal-project">
             <div style="display: flex; align-items: start; gap: 20px; margin-bottom: 20px;">
                 <div style="font-size: 3rem; color: var(--primary-light);">
-                    <i class="fas fa-${getIcon(project.category)}"></i>
+                    <i class="fas fa-${icon}"></i>
                 </div>
                 <div style="flex: 1;">
                     <span class="portfolio-category" style="display: inline-block; margin-bottom: 10px;">
@@ -228,31 +135,44 @@ function openModal(project) {
             </div>
             
             <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(99, 102, 241, 0.2);">
-                <h4 style="color: var(--text-primary); margin-bottom: 15px;">Technology Stack:</h4>
+                <h4 style="color: var(--text-primary); margin-bottom: 15px;">Технологии:</h4>
                 <div class="portfolio-tech">
                     ${project.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
                 </div>
             </div>
             
             <div style="margin-top: 30px; display: flex; gap: 15px;">
-                <a href="#contact" class="btn btn-primary" onclick="closeModal()">
+                <a href="#contact" class="btn btn-primary" onclick="closeModal(document.getElementById('projectModal'))">
                     <i class="fas fa-envelope"></i> Обсудить проект
                 </a>
             </div>
         </div>
     `;
     modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-function closeModal() {
+function closeModal(modal) {
     modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
 }
 
-// ===== TESTIMONIALS =====
+function renderTestimonialsCarousel() {
+    const track = document.getElementById('testimonialsTrack');
+    track.innerHTML = '';
 
-function renderTestimonials() {
-    testimonialsList.innerHTML = testimonials.map(testimonial => `
-        <div class="testimonial-card">
+    if (testimonials.length === 0) {
+        track.innerHTML = '<div style="color: var(--text-secondary); text-align: center; padding: 40px; grid-column: 1 / -1;">Отзывы скоро появятся</div>';
+        return;
+    }
+
+    const allTestimonials = [...testimonials, ...testimonials];
+
+    allTestimonials.forEach((testimonial, index) => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card';
+        
+        card.innerHTML = `
             <div class="testimonial-stars">
                 ${'<i class="fas fa-star"></i>'.repeat(testimonial.stars)}
             </div>
@@ -266,46 +186,27 @@ function renderTestimonials() {
                     <p>${testimonial.role}</p>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+        
+        track.appendChild(card);
+    });
+
+    let position = 0;
+    const cardWidth = 320 + 30;
+    const visibleCards = window.innerWidth > 768 ? 3 : 1;
+    const maxScroll = testimonials.length * cardWidth;
+
+    function scrollCarousel() {
+        position -= 2;
+        if (position <= -maxScroll) {
+            position = 0;
+        }
+        track.style.transform = `translateX(${position}px)`;
+    }
+
+    setInterval(scrollCarousel, 30);
+    track.style.transition = 'none';
 }
-
-// ===== CONTACT FORM =====
-
-function handleFormSubmit(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(contactForm);
-    const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        project: formData.get('project')
-    };
-    
-    // Create mailto link
-    const mailtoLink = `mailto:contact@tinokil.dev?subject=Новый пороект&body=От ${encodeURIComponent(data.name)}%0AEmail: ${encodeURIComponent(data.email)}%0A%0AОписание:%0A${encodeURIComponent(data.project)}`;
-    
-    window.location.href = mailtoLink;
-    
-    // Show success message
-    showSuccessMessage();
-}
-
-function showSuccessMessage() {
-    const originalBtn = contactForm.querySelector('button[type="submit"]');
-    const originalText = originalBtn.innerHTML;
-    
-    originalBtn.innerHTML = '<i class="fas fa-check"></i> Мессаж отправлен!';
-    originalBtn.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-light))';
-    
-    setTimeout(() => {
-        originalBtn.innerHTML = originalText;
-        originalBtn.style.background = '';
-        contactForm.reset();
-    }, 3000);
-}
-
-// ===== SCROLL ANIMATIONS =====
 
 function setupScrollAnimation() {
     const observerOptions = {
@@ -330,8 +231,6 @@ function setupScrollAnimation() {
     });
 }
 
-// ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
-
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -347,43 +246,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== PARTICLES ANIMATION (Optional Enhancement) =====
-
-function createParticles() {
-    const header = document.querySelector('.hero');
-    if (!header) return;
-    
-    // This is already done with CSS animations, but you can add more interactivity here
-    console.log('Particles initialized');
-}
-
-// Keyboard navigation
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeModal();
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('projectModal');
+        if (modal.classList.contains('active')) {
+            closeModal(modal);
+        }
     }
 });
-
-// Prevent body scroll when modal is open
-function toggleBodyScroll(disable) {
-    if (disable) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = 'auto';
-    }
-}
-
-const originalOpen = openModal;
-openModal = function(project) {
-    originalOpen(project);
-    toggleBodyScroll(true);
-};
-
-const originalClose = closeModal;
-closeModal = function() {
-    originalClose();
-    toggleBodyScroll(false);
-};
-
-console.log('%c🚀 Tinokil Portfolio loaded!', 'color: #10B981; font-size: 16px; font-weight: bold;');
-console.log('%cContact: https://t.me/tinokil_bot', 'color: #6366F1; font-size: 12px;');
