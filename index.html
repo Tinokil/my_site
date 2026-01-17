@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Максим (tinokil) - разработчик Telegram ботов и IoT решений. Более 30 успешных проектов. Рейтинг 5.0 на Kwork">
+    <meta name="description" content="Максим (tinokil) - разработчик Telegram ботов и API. Более 30 успешных проектов. Рейтинг 5.0 на Kwork">
     <meta name="keywords" content="Telegram Bot, aiogram, Python, Backend">
     <meta property="og:title" content="Максим - разработчик Telegram ботов">
     <meta property="og:description" content="Более 30 успешных проектов. Рейтинг 5.0 на Kwork">
@@ -46,10 +46,9 @@
                     <span class="hero-greeting">Привет, я</span>
                     <span class="hero-name">Максим</span>
                 </h1>
-                <p class="hero-subtitle">Разработчик Telegram ботов и IoT решений</p>
+                <p class="hero-subtitle">Разработчик Telegram ботов и API</p>
                 <p class="hero-description">
-                    Создаю <span class="highlight">Telegram боты</span>, <span class="highlight">API</span> и <span class="highlight">микроконтроллеры</span> 
-                    с упором на качество и функциональность. Более 30 успешных проектов.
+                    Написание <span class="highlight">Telegram ботов</span>, строковка на сервер и долгосрочная поддержка. Более 30 завершённых проектов.
                 </p>
                 
                 <div class="hero-stats">
@@ -69,10 +68,10 @@
 
                 <div class="hero-cta">
                     <a href="#portfolio" class="btn btn-primary btn-lg">
-                        <i class="fas fa-arrow-right"></i> Посмотреть работы
+                        <i class="fas fa-arrow-right"></i> Помотреть работы
                     </a>
                     <a href="#contact" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-paper-plane"></i> Связаться
+                        <i class="fas fa-paper-plane"></i> Говорить
                     </a>
                 </div>
 
@@ -100,14 +99,14 @@
                         <span>bot.py</span>
                     </div>
                     <pre class="code-snippet"><code>@router.message()
-async def handle_message(msg: Message):
+async def handle(msg: Message):
     <span class="code-keyword">await</span> msg.answer(
         <span class="code-string">"Привет! 👋"</span>,
-        reply_markup=get_keyboard()
+        reply_markup=get_kb()
     )
 
 <span class="code-keyword">if</span> __name__ == <span class="code-string">"__main__"</span>:
-    <span class="code-keyword">await</span> dp.start_polling(bot)</code></pre>
+    <span class="code-keyword">await</span> dp.start()</code></pre>
                 </div>
             </div>
         </div>
@@ -120,13 +119,12 @@ async def handle_message(msg: Message):
     <section id="portfolio" class="section portfolio-section">
         <div class="container">
             <h2 class="section-title">Мои проекты</h2>
-            <p class="section-subtitle">Примеры работ, которые я выполнил для клиентов</p>
+            <p class="section-subtitle">Примеры работ, которые были выполнены в кратчайшие сроки</p>
 
             <div class="portfolio-filters">
                 <button class="filter-btn active" data-filter="all">Все проекты</button>
                 <button class="filter-btn" data-filter="bots">Боты</button>
-                <button class="filter-btn" data-filter="api">Интеграции</button>
-                <button class="filter-btn" data-filter="iot">IoT</button>
+                <button class="filter-btn" data-filter="api">Приложения</button>
             </div>
 
             <div class="portfolio-grid" id="portfolioGrid">
@@ -137,11 +135,21 @@ async def handle_message(msg: Message):
     <section id="testimonials" class="section testimonials-section">
         <div class="container">
             <h2 class="section-title">Отзывы клиентов</h2>
-            <p class="section-subtitle">Что говорят обо мне те, с кем я работал</p>
+            <p class="section-subtitle">Что об этом говорят те, кто лично сотрудничал</p>
 
-            <div class="testimonials-carousel" id="testimonialsCarousel">
-                <div class="testimonials-track" id="testimonialsTrack">
+            <div class="testimonials-wrapper">
+                <button class="carousel-btn carousel-prev" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="testimonials-container">
+                    <div class="testimonials-track" id="testimonialsTrack">
+                    </div>
                 </div>
+                
+                <button class="carousel-btn carousel-next" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -149,7 +157,7 @@ async def handle_message(msg: Message):
     <section id="pricing" class="section pricing-section">
         <div class="container">
             <h2 class="section-title">Услуги и тарифы</h2>
-            <p class="section-subtitle">Гибкие пакеты для разных проектов</p>
+            <p class="section-subtitle">Гибкие пакеты для разных задач</p>
 
             <div class="pricing-grid">
                 <div class="pricing-card">
@@ -165,7 +173,7 @@ async def handle_message(msg: Message):
                         <li><i class="fas fa-check"></i> Базовая функциональность</li>
                         <li><i class="fas fa-check"></i> До 1 дня разработки</li>
                         <li><i class="fas fa-times"></i> Без базы данных</li>
-                        <li><i class="fas fa-times"></i> Установка на сервер не включена</li>
+                        <li><i class="fas fa-times"></i> Установка не включена</li>
                     </ul>
                     <button class="btn btn-secondary btn-block">Узнать больше</button>
                 </div>
@@ -174,7 +182,7 @@ async def handle_message(msg: Message):
                     <div class="pricing-badge">Популярно</div>
                     <div class="pricing-header">
                         <h3>Mini App</h3>
-                        <p class="pricing-desc">Для интерактивных проектов</p>
+                        <p class="pricing-desc">Для интерактивных решений</p>
                     </div>
                     <div class="pricing-price">
                         <span class="price-value">от 5000₽</span>
@@ -184,15 +192,15 @@ async def handle_message(msg: Message):
                         <li><i class="fas fa-check"></i> Установка на сервер</li>
                         <li><i class="fas fa-check"></i> Простой API</li>
                         <li><i class="fas fa-check"></i> От 1 дня разработки</li>
-                        <li><i class="fas fa-check"></i> Возможность работы с БД</li>
+                        <li><i class="fas fa-check"></i> Опциональная база данных</li>
                     </ul>
-                    <button class="btn btn-primary btn-block">Начать проект</button>
+                    <button class="btn btn-primary btn-block">Начать</button>
                 </div>
 
                 <div class="pricing-card">
                     <div class="pricing-header">
-                        <h3>Решение под ключ</h3>
-                        <p class="pricing-desc">Уникальные требования</p>
+                        <h3>Под ключ</h3>
+                        <p class="pricing-desc">Сложные системы</p>
                     </div>
                     <div class="pricing-price">
                         <span class="price-value">Договорная</span>
@@ -209,20 +217,20 @@ async def handle_message(msg: Message):
 
                 <div class="pricing-card">
                     <div class="pricing-header">
-                        <h3>Техническая поддержка</h3>
-                        <p class="pricing-desc">Для готовых проектов</p>
+                        <h3>Поддержка</h3>
+                        <p class="pricing-desc">Для готовых ботов</p>
                     </div>
                     <div class="pricing-price">
-                        <span class="price-value">от 1000₽/месяц</span>
+                        <span class="price-value">от 1000₽/мес</span>
                     </div>
                     <ul class="pricing-features">
                         <li><i class="fas fa-check"></i> Обслуживание сервера</li>
-                        <li><i class="fas fa-check"></i> Исправление ошибок</li>
+                        <li><i class="fas fa-check"></i> Оправка багов</li>
                         <li><i class="fas fa-check"></i> Доработки</li>
-                        <li><i class="fas fa-check"></i> Правка текстов</li>
+                        <li><i class="fas fa-check"></i> Обновления текстов</li>
                         <li><i class="fas fa-check"></i> Консультации</li>
                     </ul>
-                    <button class="btn btn-secondary btn-block">Подключиться</button>
+                    <button class="btn btn-secondary btn-block">Подключить</button>
                 </div>
             </div>
         </div>
@@ -230,36 +238,36 @@ async def handle_message(msg: Message):
 
     <section id="contact" class="section contact-section">
         <div class="container">
-            <h2 class="section-title">Свяжитесь со мной</h2>
-            <p class="section-subtitle">Выбирайте удобный способ связи</p>
+            <h2 class="section-title">А вот и я</h2>
+            <p class="section-subtitle">Быстрейший способ связи — Telegram</p>
 
             <div class="contact-grid">
-                <a href="https://t.me/maaks11" target="_blank" class="contact-link">
+                <a href="https://t.me/maaks11" target="_blank" class="contact-card">
                     <div class="contact-icon">
                         <i class="fab fa-telegram"></i>
                     </div>
-                    <div class="contact-details">
-                        <h4>Telegram</h4>
+                    <div class="contact-info">
+                        <h3>Telegram</h3>
                         <p>@maaks11</p>
                     </div>
                 </a>
 
-                <a href="https://kwork.ru/user/tinokil" target="_blank" class="contact-link">
+                <a href="https://kwork.ru/user/tinokil" target="_blank" class="contact-card">
                     <div class="contact-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <div class="contact-details">
-                        <h4>Kwork</h4>
-                        <p>tinokil (5.0 ★)</p>
+                    <div class="contact-info">
+                        <h3>Kwork</h3>
+                        <p>5.0 ★</p>
                     </div>
                 </a>
 
-                <a href="https://github.com/Tinokil" target="_blank" class="contact-link">
+                <a href="https://github.com/Tinokil" target="_blank" class="contact-card">
                     <div class="contact-icon">
                         <i class="fab fa-github"></i>
                     </div>
-                    <div class="contact-details">
-                        <h4>GitHub</h4>
+                    <div class="contact-info">
+                        <h3>GitHub</h3>
                         <p>Tinokil</p>
                     </div>
                 </a>
@@ -272,7 +280,7 @@ async def handle_message(msg: Message):
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>tinokil</h4>
-                    <p>Разработчик Telegram ботов и IoT решений. Более 30 успешных проектов.</p>
+                    <p>Разработка Telegram ботов, веб-приложений и API. Качество и людям с точи зрения важны мя ли не не в процессе.</p>
                     <div class="footer-socials">
                         <a href="https://github.com/Tinokil" target="_blank" title="GitHub">
                             <i class="fab fa-github"></i>
@@ -287,7 +295,7 @@ async def handle_message(msg: Message):
                 </div>
 
                 <div class="footer-section">
-                    <h4>Ссылки</h4>
+                    <h4>Шбыстрые ссылки</h4>
                     <ul>
                         <li><a href="#hero">Главная</a></li>
                         <li><a href="#portfolio">Проекты</a></li>
@@ -299,17 +307,17 @@ async def handle_message(msg: Message):
                 <div class="footer-section">
                     <h4>Услуги</h4>
                     <ul>
-                        <li><a href="#pricing">Telegram боты</a></li>
+                        <li><a href="#pricing">Базовые боты</a></li>
                         <li><a href="#pricing">Mini App</a></li>
-                        <li><a href="#pricing">IoT решения</a></li>
-                        <li><a href="#pricing">Консультация</a></li>
+                        <li><a href="#pricing">Под ключ</a></li>
+                        <li><a href="#pricing">Поддержка</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Максим (tinokil). Все права защищены.</p>
-                <p class="footer-developed">Создано с <i class="fas fa-heart"></i> на чистом коде</p>
+                <p>&copy; 2026 Максим (tinokil). Отовсюду все права на код.</p>
+                <p class="footer-developed">Написано с чистым духом и чистым кодом</p>
             </div>
         </div>
     </footer>
