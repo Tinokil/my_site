@@ -1,295 +1,194 @@
-const colorPalette = [
-  '#6366F1', '#818CF8', '#10B981', '#34D399', '#8B5CF6',
-  '#EC4899', '#F97316', '#06B6D4', '#EF4444', '#F59E0B'
-];
+(function() {
+  const tabs = document.querySelectorAll('.nav-btn');
+  const panes = {
+    home: document.getElementById('homePane'),
+    about: document.getElementById('aboutPane'),
+    projects: document.getElementById('projectsPane'),
+    reviews: document.getElementById('reviewsPane'),
+    contact: document.getElementById('contactPane')
+  };
 
-function getRandomColor() {
-  return colorPalette[Math.floor(Math.random() * colorPalette.length)];
-}
+  let currentFilter = 'all';
+  let reviewIndex = 0;
+  let autoInterval;
 
-function getColorForAuthor(author) {
-  let hash = 0;
-  for (let i = 0; i < author.length; i++) {
-    hash = author.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return colorPalette[Math.abs(hash) % colorPalette.length];
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  renderPortfolio('all');
-  renderTestimonials();
-  setupEventListeners();
-  setupScrollAnimation();
-});
-
-function setupEventListeners() {
-  const hamburger = document.getElementById('hamburger');
-  const navMenu = document.getElementById('navMenu');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const modal = document.getElementById('projectModal');
-  const modalClose = document.querySelector('.modal-close');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-
-  if (hamburger) {
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      hamburger.classList.toggle('active');
+  function activateTab(tabId) {
+    Object.values(panes).forEach(pane => pane.classList.remove('active-pane'));
+    panes[tabId].classList.add('active-pane');
+    tabs.forEach(btn => {
+      if(btn.dataset.tab === tabId) btn.classList.add('active');
+      else btn.classList.remove('active');
     });
+    if(tabId === 'projects') renderProjects(currentFilter);
+    if(tabId === 'reviews') initReviewSlider();
+    if(tabId === 'home') renderHomeProjects();
+    localStorage.setItem('lastTab', tabId);
   }
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      if (hamburger) hamburger.classList.remove('active');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabId = btn.dataset.tab;
+      activateTab(tabId);
+      document.getElementById('navLinks')?.classList.remove('mobile-open');
     });
   });
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      renderPortfolio(e.target.dataset.filter);
-    });
-  });
-
-  if (modalClose) {
-    modalClose.addEventListener('click', () => closeModal(modal));
-  }
-
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal(modal);
+  const menuBtn = document.getElementById('mobileMenuBtn');
+  const navDiv = document.getElementById('navLinks');
+  if(menuBtn) {
+    menuBtn.addEventListener('click', () => {
+      navDiv.classList.toggle('mobile-open');
     });
   }
 
-  if (prevBtn) {
-    prevBtn.addEventListener('click', carouselPrev);
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', carouselNext);
-  }
-
-  window.addEventListener('scroll', updateActiveNav);
-}
-
-let currentSlide = 0;
-
-function carouselNext() {
-  const track = document.getElementById('testimonialsTrack');
-  const cards = document.querySelectorAll('.testimonial-card');
-  if (cards.length === 0) return;
-  
-  currentSlide = (currentSlide + 1) % testimonials.length;
-  updateCarousel(track);
-}
-
-function carouselPrev() {
-  const track = document.getElementById('testimonialsTrack');
-  const cards = document.querySelectorAll('.testimonial-card');
-  if (cards.length === 0) return;
-  
-  currentSlide = (currentSlide - 1 + testimonials.length) % testimonials.length;
-  updateCarousel(track);
-}
-
-function updateCarousel(track) {
-  const offset = -currentSlide * 100;
-  track.style.transform = `translateX(${offset}%)`;
-}
-
-function updateActiveNav() {
-  let current = '';
-  
-  document.querySelectorAll('section, header').forEach(section => {
-    const sectionTop = section.offsetTop;
-    if (window.pageYOffset >= sectionTop - 200) {
-      current = section.getAttribute('id');
-    }
-  });
-
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href').includes(current)) {
-      link.classList.add('active');
-    }
-  });
-}
-
-function renderPortfolio(filter = 'all') {
-  const portfolioGrid = document.getElementById('portfolioGrid');
-  portfolioGrid.innerHTML = '';
-  
-  const filtered = filter === 'all' 
-    ? projects 
-    : projects.filter(p => p.category === filter);
-
-  if (filtered.length === 0) {
-    portfolioGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-secondary);">Тут пока ничего нет</p>';
-    return;
-  }
-
-  filtered.forEach(project => {
-    const card = document.createElement('div');
-    card.className = 'portfolio-card';
-    const icon = getCategoryIcon(project.category);
-    
-    card.innerHTML = `
-      <div class="portfolio-image">
-        <i class="fas fa-${icon}"></i>
+  function renderProjects(filter) {
+    const container = document.getElementById('projectsGridContainer');
+    if(!container) return;
+    let filtered = window.projectsData.filter(p => filter === 'all' ? true : p.category === filter);
+    container.innerHTML = filtered.map(proj => `
+      <div class="project-card" data-id="${proj.id}">
+        <span class="project-tag">${proj.tag}</span>
+        <h3 style="margin: 14px 0 8px;">${proj.title}</h3>
+        <p style="color: var(--text-muted);">${proj.description}</p>
+        <div class="tech-stack">${proj.tech.slice(0,3).map(t => `<span>${t}</span>`).join('')}${proj.tech.length > 3 ? `<span>+${proj.tech.length-3}</span>` : ''}</div>
+        <span style="color: var(--purple-base); font-weight:600;">Подробнее →</span>
       </div>
-      <div class="portfolio-content">
-        <span class="portfolio-category">${getCategoryName(project.category)}</span>
-        <h3 class="portfolio-title">${project.title}</h3>
-        <p class="portfolio-description">${project.description}</p>
-        <div class="portfolio-tech">
-          ${project.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
-        </div>
+    `).join('');
+    attachProjectCardEvents();
+  }
+
+  function renderHomeProjects() {
+    const container = document.getElementById('homeProjectsGrid');
+    if(!container) return;
+    const latest = window.projectsData.slice(0, 3);
+    container.innerHTML = latest.map(proj => `
+      <div class="project-card" data-id="${proj.id}">
+        <span class="project-tag">${proj.tag}</span>
+        <h3 style="margin: 14px 0 8px;">${proj.title}</h3>
+        <p style="color: var(--text-muted);">${proj.description}</p>
+        <div class="tech-stack">${proj.tech.slice(0,3).map(t => `<span>${t}</span>`).join('')}${proj.tech.length > 3 ? `<span>+${proj.tech.length-3}</span>` : ''}</div>
+        <span style="color: var(--purple-base); font-weight:600;">Подробнее →</span>
+      </div>
+    `).join('');
+    attachProjectCardEvents();
+  }
+
+  function attachProjectCardEvents() {
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const id = parseInt(card.dataset.id);
+        const project = window.projectsData.find(p => p.id === id);
+        if(project) openProjectModal(project);
+      });
+    });
+  }
+
+  function openProjectModal(project) {
+    const modalDiv = document.createElement('div');
+    modalDiv.className = 'modal-overlay';
+    modalDiv.innerHTML = `
+      <div class="modal-content">
+        <button class="close-modal">&times;</button>
+        <span class="project-tag">${project.tag}</span>
+        <h2 style="margin: 16px 0 12px;">${project.title}</h2>
+        <p>${project.fullDescription}</p>
+        <div class="tech-stack" style="margin: 20px 0;">${project.tech.map(t => `<span>${t}</span>`).join('')}</div>
+        <a href="https://t.me/maaks11" target="_blank" class="btn btn-primary" style="display:inline-block;">Обсудить проект</a>
       </div>
     `;
-    
-    card.addEventListener('click', () => openModal(project));
-    portfolioGrid.appendChild(card);
-  });
-}
-
-function getCategoryIcon(category) {
-  const icons = {
-    bots: 'robot',
-    api: 'code'
-  };
-  return icons[category] || 'star';
-}
-
-function getCategoryName(category) {
-  const names = {
-    bots: 'Telegram Bot',
-    api: 'Приложение'
-  };
-  return names[category] || category;
-}
-
-function openModal(project) {
-  const modal = document.getElementById('projectModal');
-  const modalBody = document.getElementById('modalBody');
-  const icon = getCategoryIcon(project.category);
-  
-  modalBody.innerHTML = `
-    <div class="modal-project">
-      <div style="display: flex; align-items: start; gap: 20px; margin-bottom: 20px;">
-        <div style="font-size: 3rem; color: var(--primary-light);">
-          <i class="fas fa-${icon}"></i>
-        </div>
-        <div style="flex: 1;">
-          <span class="portfolio-category" style="display: inline-block; margin-bottom: 10px;">
-            ${getCategoryName(project.category)}
-          </span>
-          <h2 style="color: var(--text-primary); margin-bottom: 10px;">${project.title}</h2>
-          <p style="color: var(--text-secondary); line-height: 1.6;">${project.fullDescription}</p>
-        </div>
-      </div>
-      
-      <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(99, 102, 241, 0.2);">
-        <h4 style="color: var(--text-primary); margin-bottom: 15px;">Технологии:</h4>
-        <div class="portfolio-tech">
-          ${project.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
-        </div>
-      </div>
-      
-      <div style="margin-top: 30px; display: flex; gap: 15px;">
-        <a href="#contact" class="btn btn-primary" onclick="closeModal(document.getElementById('projectModal'))">
-          <i class="fas fa-envelope"></i> Обсудить
-        </a>
-      </div>
-    </div>
-  `;
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(modal) {
-  modal.classList.remove('active');
-  document.body.style.overflow = 'auto';
-}
-
-function renderTestimonials() {
-  const track = document.getElementById('testimonialsTrack');
-  track.innerHTML = '';
-
-  if (testimonials.length === 0) {
-    track.innerHTML = '<div style="color: var(--text-secondary); text-align: center; padding: 40px;">Отзывы скоро будут</div>';
-    return;
-  }
-
-  testimonials.forEach((testimonial) => {
-    const card = document.createElement('div');
-    card.className = 'testimonial-card';
-    const avatarColor = getColorForAuthor(testimonial.author);
-    
-    card.innerHTML = `
-      <div class="testimonial-stars">
-        ${'<i class="fas fa-star"></i>'.repeat(testimonial.stars)}
-      </div>
-      <p class="testimonial-text">"${testimonial.text}"</p>
-      <div class="testimonial-author">
-        <div class="author-avatar" style="background-color: ${avatarColor};">
-          ${testimonial.author.charAt(0).toUpperCase()}
-        </div>
-        <div class="author-info">
-          <h4>${testimonial.author}</h4>
-        </div>
-      </div>
-    `;
-    
-    track.appendChild(card);
-  });
-}
-
-function setupScrollAnimation() {
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+    document.body.appendChild(modalDiv);
+    document.body.style.overflow = 'hidden';
+    modalDiv.querySelector('.close-modal').addEventListener('click', () => {
+      modalDiv.remove();
+      document.body.style.overflow = '';
+    });
+    modalDiv.addEventListener('click', (e) => {
+      if(e.target === modalDiv) {
+        modalDiv.remove();
+        document.body.style.overflow = '';
       }
     });
-  }, observerOptions);
-
-  document.querySelectorAll('.portfolio-card, .testimonial-card, .pricing-card, .contact-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'all 0.6s ease';
-    observer.observe(el);
-  });
-}
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    const targetId = this.getAttribute('href');
-    const targetElement = document.querySelector(targetId);
-    
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  });
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('projectModal');
-    if (modal && modal.classList.contains('active')) {
-      closeModal(modal);
-    }
   }
-});
+
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      const activePane = document.querySelector('.tab-pane.active-pane');
+      if(activePane && activePane.id === 'projectsPane') renderProjects(currentFilter);
+    });
+  });
+
+  function initReviewSlider() {
+    if(!window.testimonialsData || window.testimonialsData.length === 0) return;
+    const reviewText = document.getElementById('reviewText');
+    const reviewAuthor = document.getElementById('reviewAuthor');
+    const dotsContainer = document.getElementById('reviewDots');
+    if(!reviewText) return;
+
+    function updateReviewUI() {
+      const rev = window.testimonialsData[reviewIndex];
+      reviewText.innerText = `«${rev.text}»`;
+      reviewAuthor.innerText = rev.author;
+      if(dotsContainer) {
+        dotsContainer.innerHTML = '';
+        window.testimonialsData.forEach((_, idx) => {
+          const dot = document.createElement('div');
+          dot.classList.add('dot');
+          if(idx === reviewIndex) dot.classList.add('active-dot');
+          dot.addEventListener('click', () => {
+            reviewIndex = idx;
+            updateReviewUI();
+            resetAutoSlide();
+          });
+          dotsContainer.appendChild(dot);
+        });
+      }
+    }
+
+    function resetAutoSlide() {
+      if(autoInterval) clearInterval(autoInterval);
+      autoInterval = setInterval(() => {
+        reviewIndex = (reviewIndex + 1) % window.testimonialsData.length;
+        updateReviewUI();
+      }, 6500);
+    }
+
+    const prevBtn = document.getElementById('prevReview');
+    const nextBtn = document.getElementById('nextReview');
+    if(prevBtn) prevBtn.onclick = () => { reviewIndex = (reviewIndex - 1 + window.testimonialsData.length) % window.testimonialsData.length; updateReviewUI(); resetAutoSlide(); };
+    if(nextBtn) nextBtn.onclick = () => { reviewIndex = (reviewIndex + 1) % window.testimonialsData.length; updateReviewUI(); resetAutoSlide(); };
+    updateReviewUI();
+    resetAutoSlide();
+  }
+
+  const toProjectsBtn = document.getElementById('toProjectsBtn');
+  if(toProjectsBtn) {
+    toProjectsBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      activateTab('projects');
+    });
+  }
+
+  const homeToProjectsBtn = document.getElementById('homeToProjectsBtn');
+  if(homeToProjectsBtn) {
+    homeToProjectsBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      activateTab('projects');
+    });
+  }
+
+  renderHomeProjects();
+  renderProjects('all');
+  initReviewSlider();
+
+  const savedTab = localStorage.getItem('lastTab');
+  if(savedTab && panes[savedTab]) activateTab(savedTab);
+  else activateTab('home');
+
+  window.addEventListener('beforeunload', () => {
+    if(autoInterval) clearInterval(autoInterval);
+  });
+})();
