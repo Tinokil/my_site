@@ -1,327 +1,159 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Максим (tinokil) - разработчик Telegram ботов.">
-    <meta name="keywords" content="Telegram Bot, aiogram, Python, Backend">
-    <meta property="og:title" content="Максим - разработчик Telegram ботов">
-    <meta property="og:description" content="Более 30 успешных проектов. Рейтинг 5.0 на Kwork">
-    <meta property="og:type" content="website">
-    <title>Максим - разработчик Telegram ботов | tinokil</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>tinokil — разработка Telegram-ботов</title>
+  <link rel="icon" type="image/svg+xml" href="https://avatars.githubusercontent.com/u/125847246?s=32&u=f61cfc8b3a8ea1ba93749bc18733437d5879a46a&v=4">
+  <link rel="apple-touch-icon" href="https://avatars.githubusercontent.com/u/125847246?s=180&u=f61cfc8b3a8ea1ba93749bc18733437d5879a46a&v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <i class="fas fa-code"></i>
-                <span>tinokil</span>
-            </div>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#hero" class="nav-link active">Главная</a></li>
-                <li><a href="#portfolio" class="nav-link">Проекты</a></li>
-                <li><a href="#testimonials" class="nav-link">Отзывы</a></li>
-                <li><a href="#pricing" class="nav-link">Услуги</a></li>
-                <li><a href="#contact" class="nav-link">Контакты</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+<div class="site-container">
+  <div class="topbar">
+    <div class="brand">
+      <img class="brand-avatar" src="https://avatars.githubusercontent.com/u/125847246?s=400&u=f61cfc8b3a8ea1ba93749bc18733437d5879a46a&v=4" alt="tinokil">
+      <span>tinokil</span>
+    </div>
+    <button class="menu-toggle" id="mobileMenuBtn" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <button class="nav-btn" data-tab="home">Главная</button>
+      <button class="nav-btn" data-tab="about">Обо мне</button>
+      <button class="nav-btn" data-tab="projects">Проекты</button>
+      <button class="nav-btn" data-tab="reviews">Отзывы</button>
+      <button class="nav-btn" data-tab="contact">Связаться со мной</button>
+    </div>
+  </div>
+
+  <main>
+    <div id="homePane" class="tab-pane active-pane">
+      <div class="hero-grid">
+        <span class="glow-text">tinokil</span>
+        <h1 style="font-size: clamp(2rem,6vw,3.4rem); margin-top: 12px;">Разработка Telegram-ботов и Mini Apps</h1>
+        <p class="hero-description">Проектирую ботов, интеграции, веб-приложения внутри Telegram. От логики до деплоя и поддержки — решения, которые приносят результат.</p>
+        <div class="button-group">
+          <a href="#" class="btn btn-primary" id="toProjectsBtn">Посмотреть проекты →</a>
+          <a href="https://t.me/maaks11" target="_blank" class="btn">Написать в Telegram</a>
         </div>
-    </nav>
-
-    <header id="hero" class="hero">
-        <div class="hero-background">
-            <div class="gradient-orb gradient-orb-1"></div>
-            <div class="gradient-orb gradient-orb-2"></div>
+        <div class="stats-row">
+          <div class="stat-item"><strong>50+</strong><br><span>завершённых проектов</span></div>
+          <div class="stat-item"><strong>5.0</strong><br><span>рейтинг на Kwork</span></div>
+          <div class="stat-item"><strong>2+ года</strong><br><span>опыта</span></div>
         </div>
-        
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    <span class="hero-greeting">Привет, я</span>
-                    <span class="hero-name">Максим</span>
-                </h1>
-                <p class="hero-subtitle">Разработчик Telegram ботов и API</p>
-                <p class="hero-description">
-                    Разработка <span class="highlight">Telegram ботов</span>, деплой на сервер и долгосрочная поддержка. Более 30 завершённых проектов.
-                </p>
-                
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">30+</div>
-                        <div class="stat-label">Проектов</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">5.0</div>
-                        <div class="stat-label">★ Рейтинг</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1+</div>
-                        <div class="stat-label">Лет опыта</div>
-                    </div>
-                </div>
+      </div>
 
-                <div class="hero-cta">
-                    <a href="#portfolio" class="btn btn-primary btn-lg">
-                        <i class="fas fa-arrow-right"></i> Посмотреть работы
-                    </a>
-                    <a href="#contact" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-paper-plane"></i> Связаться
-                    </a>
-                </div>
-
-                <div class="hero-socials">
-                    <a href="https://github.com/Tinokil" target="_blank" class="social-btn" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://t.me/maaks11" target="_blank" class="social-btn" title="Telegram">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    <a href="https://kwork.ru/user/tinokil" target="_blank" class="social-btn" title="Kwork">
-                        <i class="fas fa-briefcase"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="hero-image">
-                <div class="code-window">
-                    <div class="window-header">
-                        <div class="window-controls"><div class="control red"></div><div class="control yellow"></div><div class="control green"></div></div>
-                        <span>main.py</span>
-                    </div>
-                    <pre class="code-snippet"><code>@router.message()
-async def handle_message(message: Message):
-    <span class="code-keyword">await</span> message.answer(<span class="code-string">"Привет! Я твой личный ассистент"</span>, reply_markup=mk.start())
-
-<span class="code-keyword">if</span> __name__ == <span class="code-string">"__main__"</span>:
-    <span class="code-keyword">await</span> dp.start_polling(bot)</code></pre>
-                </div>
-            </div>
+      <div class="advantages-section">
+        <h2 class="section-title">Почему выбирают меня</h2>
+        <div class="advantages-grid">
+          <div class="advantage-card">
+            <div class="advantage-icon">⚡</div>
+            <h3>Скорость</h3>
+            <p>Средний срок разработки бота - от 3 до 10 дней. Работаю без затягивания сроков</p>
+          </div>
+          <div class="advantage-card">
+            <div class="advantage-icon">🛡️</div>
+            <h3>Надёжность</h3>
+            <p>Чистый код, логирование, стабильная работа 24/7 после деплоя</p>
+          </div>
+          <div class="advantage-card">
+            <div class="advantage-icon">💬</div>
+            <h3>Поддержка</h3>
+            <p>Помогаю после сдачи проекта, быстро исправляю баги и консультирую</p>
+          </div>
+          <div class="advantage-card">
+            <div class="advantage-icon">🧩</div>
+            <h3>Гибкость</h3>
+            <p>Легко добавляю новый функционал, интегрирую любые API и сервисы</p>
+          </div>
         </div>
+      </div>
 
-        <div class="scroll-indicator">
-            <i class="fas fa-chevron-down"></i>
+      <div class="home-tech-section">
+        <h2 class="section-title">Технологический стек</h2>
+        <div class="skills-cloud">
+          <span class="skill-tag">Python</span><span class="skill-tag">aiogram</span><span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">SQLAlchemy</span><span class="skill-tag">ChatGPT API</span><span class="skill-tag">Telethon</span>
+          <span class="skill-tag">SQLite</span><span class="skill-tag">MySQL</span><span class="skill-tag">Linux</span>
         </div>
-    </header>
+      </div>
 
-    <section id="portfolio" class="section portfolio-section">
-        <div class="container">
-            <h2 class="section-title">Мои проекты</h2>
-            <p class="section-subtitle">Примеры работ, которые были выполнены в кратчайшие сроки</p>
-
-            <div class="portfolio-filters">
-                <button class="filter-btn active" data-filter="all">Все проекты</button>
-                <button class="filter-btn" data-filter="bots">Боты</button>
-                <button class="filter-btn" data-filter="api">Приложения</button>
-            </div>
-
-            <div class="portfolio-grid" id="portfolioGrid">
-            </div>
+      <div class="recent-projects-section">
+        <h2 class="section-title">Последние проекты</h2>
+        <div id="homeProjectsGrid" class="projects-grid home-projects-grid"></div>
+        <div class="button-group center-btn">
+          <a href="#" class="btn" id="homeToProjectsBtn">Смотреть все проекты →</a>
         </div>
-    </section>
-
-    <section id="testimonials" class="section testimonials-section">
-        <div class="container">
-            <h2 class="section-title">Отзывы клиентов</h2>
-            <p class="section-subtitle">Что об этом говорят те, кто лично сотрудничал</p>
-
-            <div class="testimonials-wrapper">
-                <button class="carousel-btn carousel-prev" id="prevBtn">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                
-                <div class="testimonials-container">
-                    <div class="testimonials-track" id="testimonialsTrack">
-                    </div>
-                </div>
-                
-                <button class="carousel-btn carousel-next" id="nextBtn">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="section pricing-section">
-        <div class="container">
-            <h2 class="section-title">Услуги и тарифы</h2>
-            <p class="section-subtitle">Гибкие пакеты для разных задач</p>
-
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Базовый бот</h3>
-                        <p class="pricing-desc">Для простых задач</p>
-                    </div>
-                    <div class="pricing-price">
-                        <span class="price-value">от 500₽</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Бот с кнопками-ссылками</li>
-                        <li><i class="fas fa-check"></i> Базовая функциональность</li>
-                        <li><i class="fas fa-check"></i> До 1 дня разработки</li>
-                        <li><i class="fas fa-times"></i> Без базы данных</li>
-                        <li><i class="fas fa-times"></i> Установка не включена</li>
-                    </ul>
-                    <a href="#contact"><button class="btn btn-secondary btn-block">Заказать</button></a>
-                </div>
-
-                <div class="pricing-card pricing-card-featured">
-                    <div class="pricing-badge">Популярно</div>
-                    <div class="pricing-header">
-                        <h3>Под ключ</h3>
-                        <p class="pricing-desc">Сложные системы</p>
-                    </div>
-                    <div class="pricing-price">
-                        <span class="price-value">Договорная</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Полная кастомизация</li>
-                        <li><i class="fas fa-check"></i> Установка на сервер</li>
-                        <li><i class="fas fa-check"></i> Работа с БД</li>
-                        <li><i class="fas fa-check"></i> От 1 дня разработки</li>
-                        <li><i class="fas fa-check"></i> Долгосрочное сотрудничество</li>
-                    </ul>
-                    <a href="#contact"><button class="btn btn-primary btn-block">Консультация</button></a>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Mini App</h3>
-                        <p class="pricing-desc">Для интерактивных решений</p>
-                    </div>
-                    <div class="pricing-price">
-                        <span class="price-value">от 5000₽</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Интерактивное приложение</li>
-                        <li><i class="fas fa-check"></i> Установка на сервер</li>
-                        <li><i class="fas fa-check"></i> Простой API</li>
-                        <li><i class="fas fa-check"></i> От 1 дня разработки</li>
-                        <li><i class="fas fa-check"></i> Опциональная база данных</li>
-                    </ul>
-                    <a href="#contact"><button class="btn btn-secondary btn-block">Начать</button></a>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Поддержка</h3>
-                        <p class="pricing-desc">Для готовых ботов</p>
-                    </div>
-                    <div class="pricing-price">
-                        <span class="price-value">от 1000₽/мес</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Обслуживание сервера</li>
-                        <li><i class="fas fa-check"></i> Фикс багов</li>
-                        <li><i class="fas fa-check"></i> Доработки</li>
-                        <li><i class="fas fa-check"></i> Обновление интерфейса</li>
-                        <li><i class="fas fa-check"></i> Консультации</li>
-                    </ul>
-                    <a href="#contact"><button class="btn btn-secondary btn-block">Узнать подробнее</button></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="section contact-section">
-        <div class="container">
-            <h2 class="section-title">Контакты</h2>
-            <p class="section-subtitle">Быстрейший способ связи - Telegram</p>
-
-            <div class="contact-grid">
-                <a href="https://t.me/maaks11" target="_blank" class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fab fa-telegram"></i>
-                    </div>
-                    <div class="contact-info">
-                        <h3>Telegram</h3>
-                        <p>@maaks11</p>
-                    </div>
-                </a>
-
-                <a href="https://kwork.ru/user/tinokil" target="_blank" class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <div class="contact-info">
-                        <h3>Kwork</h3>
-                        <p>5.0 ★</p>
-                    </div>
-                </a>
-
-                <a href="https://github.com/Tinokil" target="_blank" class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <div class="contact-info">
-                        <h3>GitHub</h3>
-                        <p>Tinokil</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>tinokil</h4>
-                    <p>Разработка Telegram ботов, веб-приложений и API. Качество и людям с точи зрения важны мя ли не не в процессе.</p>
-                    <div class="footer-socials">
-                        <a href="https://github.com/Tinokil" target="_blank" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://t.me/maaks11" target="_blank" title="Telegram">
-                            <i class="fab fa-telegram"></i>
-                        </a>
-                        <a href="https://kwork.ru/user/tinokil" target="_blank" title="Kwork">
-                            <i class="fas fa-briefcase"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Шбыстрые ссылки</h4>
-                    <ul>
-                        <li><a href="#hero">Главная</a></li>
-                        <li><a href="#portfolio">Проекты</a></li>
-                        <li><a href="#pricing">Услуги</a></li>
-                        <li><a href="#contact">Контакты</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h4>Услуги</h4>
-                    <ul>
-                        <li><a href="#pricing">Базовые боты</a></li>
-                        <li><a href="#pricing">Mini App</a></li>
-                        <li><a href="#pricing">Под ключ</a></li>
-                        <li><a href="#pricing">Поддержка</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2026 Максим (tinokil). Отовсюду все права на код</p>
-            </div>
-        </div>
-    </footer>
-
-    <div id="projectModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div id="modalBody"></div>
-        </div>
+      </div>
     </div>
 
-    <script src="config.js"></script>
-    <script src="script.js"></script>
+    <div id="aboutPane" class="tab-pane">
+      <div class="about-layout">
+        <div class="avatar-frame">
+          <img src="https://avatars.githubusercontent.com/u/125847246?s=400&u=f61cfc8b3a8ea1ba93749bc18733437d5879a46a&v=4" alt="Фото Максима">
+        </div>
+        <div class="about-text">
+          <h2 style="font-size: 2rem;">Максим · tinokil</h2>
+          <p style="margin-top: 16px; color: var(--text-secondary);">Разрабатываю Python скрипты, которые помогают бизнесу автоматизировать продажи, общение и сбор данных. Берусь за проекты любой сложности - от простого бота до небольшого Mini App с оплатой и аналитикой</p>
+          <p style="margin-top: 12px;">Ценю чистый код, прозрачное общение и долгосрочную поддержку</p>
+          <div class="skills-badge">
+            <span class="skill-tag">Python</span><span class="skill-tag">aiogram</span><span class="skill-tag">FastAPI</span>
+            <span class="skill-tag">Google Sheets API</span><span class="skill-tag">ChatGPT API</span>
+            <span class="skill-tag">SQLite</span><span class="skill-tag">MySQL</span><span class="skill-tag">Git</span>
+          </div>
+        </div>
+      </div>
+      <div class="facts-row about-facts">
+        <div><strong>5.0</strong> <span>средний рейтинг</span></div>
+        <div><strong>100%</strong> <span>довольных клиентов</span></div>
+        <div><strong>24/7</strong> <span>поддержка после запуска</span></div>
+      </div>
+    </div>
+
+    <div id="projectsPane" class="tab-pane">
+      <div class="project-filters" id="filterContainer">
+        <button class="filter-btn active" data-filter="all">Все проекты</button>
+        <button class="filter-btn" data-filter="bots">Боты</button>
+        <button class="filter-btn" data-filter="webapp">Mini Apps</button>
+      </div>
+      <div id="projectsGridContainer" class="projects-grid"></div>
+    </div>
+
+    <div id="reviewsPane" class="tab-pane">
+      <div class="testimonial-slider" id="testimonialSlider">
+        <div class="stars" id="reviewStars">★★★★★</div>
+        <div class="review-text-wrapper">
+          <div class="review-text" id="reviewText">Загрузка...</div>
+        </div>
+        <div class="review-author" id="reviewAuthor"></div>
+        <div class="slider-controls">
+          <button class="slider-btn" id="prevReview">←</button>
+          <div class="dot-group" id="reviewDots"></div>
+          <button class="slider-btn" id="nextReview">→</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="contactPane" class="tab-pane">
+      <div class="contact-card">
+        <h2 style="font-size: 2.2rem;">Начнём проект?</h2>
+        <p style="margin: 20px auto; max-width: 440px; color: #b7c1f0;">Напишите мне в Telegram, обсудим идею, сроки и детали. Отвечаю быстро</p>
+        <a href="https://t.me/maaks11" target="_blank" class="btn btn-primary" style="margin-top: 14px;">Telegram</a>
+        <div style="margin-top: 42px;">
+          <a href="https://github.com/Tinokil" target="_blank" style="color: var(--text-muted); margin: 0 20px;">GitHub</a>
+          <a href="https://kwork.ru/user/tinokil" target="_blank" style="color: var(--text-muted); margin: 0 20px;">Kwork</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div style="margin-top: 14px;">© 2026 Максим (tinokil)</div>
+  </footer>
+</div>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
